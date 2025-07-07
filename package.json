@@ -1,0 +1,36 @@
+{
+  "name": "roasorg-website",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Professional website for RoaS Org and Aditask project",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "export": "next export",
+    "start": "next start",
+    "deploy": "gh-pages -d out"
+  },
+  "author": "RoaS Org",
+  "license": "MIT",
+  "dependencies": {
+    "@stripe/react-stripe-js": "^3.7.0",
+    "@stripe/stripe-js": "^7.4.0",
+    "gh-pages": "^6.0.0",
+    "next": "^14.2.30",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Akeem1066/roasorg-website.git"
+  },
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/Akeem1066/roasorg-website/issues"
+  },
+  "homepage": "https://github.com/Akeem1066/roasorg-website#readme"
+}

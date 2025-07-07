@@ -1,0 +1,11 @@
+aditask-website/
+  public/
+    favicon.ico
+    logo.png
+  pages/
+    _app.js
+    index.js
+  styles/
+    globals.css
+  package.json
+  README.md
