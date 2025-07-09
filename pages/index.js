@@ -1,64 +1,58 @@
 import Head from 'next/head';
-import Image from 'next/image';
+import { useEffect } from 'react';
 
 export default function Home() {
+  useEffect(() => {
+    document.body.classList.add('roasorg');
+    return () => document.body.classList.remove('roasorg');
+  }, []);
+
   return (
     <>
       <Head>
-        <title>RoaS Org - Aditask & Professional Management Training</title>
-        <meta name="description" content="Professional app development, design, and management training by RoaS Org." />
-        <link rel="icon" href="/favicon.ico" />
+        <title>RoaSorg</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="/Icon.png" type="image/png" />
       </Head>
-      <header className="header">
-        <Image src="/logo.png" alt="Aditask Logo" width={64} height={64} />
-        <h1>RoaS Org</h1>
-        <p>Professional Management Training & App Creation</p>
-      </header>
-      <nav className="nav">
-        <a href="#home">Home</a>
-        <a href="#about">About</a>
-        <a href="#aditask">Aditask</a>
-        <a href="#services">Services</a>
-        <a href="#contact">Contact</a>
-      </nav>
-      <main className="main">
-        <section id="home">
-          <h2>Welcome to RoaS Org</h2>
-          <p>
-            We build innovative apps, deliver professional management training, and create digital solutions that inspire.
-          </p>
-        </section>
-        <section id="about">
-          <h2>About Us</h2>
-          <p>
-            RoaS Org is a team of developers, designers, and trainers. Our mission is to empower organizations and individuals with digital and management skills.
-          </p>
-        </section>
-        <section id="aditask">
-          <h2>Aditask Project</h2>
-          <p>
-            <strong>Aditask</strong> is our flagship productivity and accountability app, designed to help you achieve your goals with smart tracking and community support.
-          </p>
-        </section>
-        <section id="services">
-          <h2>Our Services</h2>
-          <ul>
-            <li><strong>App Development:</strong> Mobile and web apps tailored to your needs.</li>
-            <li><strong>Management Training:</strong> Professional courses for teams and leaders.</li>
-            <li><strong>Design & Branding:</strong> UI/UX, branding, and visual storytelling.</li>
-          </ul>
-        </section>
-        <section id="contact">
-          <h2>Contact Us</h2>
-          <p>
-            <strong>Email:</strong> <a href="mailto:info@roasorg.com">info@roasorg.com</a><br/>
-            <strong>Phone:</strong> <a href="tel:+358408713073">+358 40 871 3073</a>
-          </p>
-        </section>
-      </main>
-      <footer className="footer">
-        &copy; 2024 RoaS Org. All rights reserved.
-      </footer>
+      <div className="roasorg-container">
+        <img src="/Icon.png" alt="RoaSorg Logo" className="roasorg-logo" />
+        <div className="roasorg-brand">RoaSorg</div>
+        <div className="roasorg-subtitle">
+          Development &bull; Design &bull; Content &bull; Management<br />
+          Product Development Management Support by <b>EduTutor (E2T)</b>
+        </div>
+        <div className="roasorg-card-row">
+          <div className="roasorg-card roasorg-dev">
+            <div className="roasorg-card-icon">📱</div>
+            <div className="roasorg-card-label">
+              Developer<br />
+              <span style={{ fontSize: '0.9em', fontWeight: 400 }}>(Mobile App)</span>
+            </div>
+          </div>
+          <div className="roasorg-card roasorg-design">
+            <div className="roasorg-card-icon">⭐</div>
+            <div className="roasorg-card-label">
+              Design<br />
+              <span style={{ fontSize: '0.9em', fontWeight: 400 }}>(3D Printing)</span>
+            </div>
+          </div>
+          <div className="roasorg-card roasorg-content">
+            <div className="roasorg-card-icon">📄</div>
+            <div className="roasorg-card-label">Content Creation</div>
+          </div>
+          <div className="roasorg-card roasorg-mgmt">
+            <div className="roasorg-card-icon">🛠️</div>
+            <div className="roasorg-card-label">
+              Management<br />
+              <span style={{ fontSize: '0.9em', fontWeight: 400 }}>(E2T)</span>
+            </div>
+          </div>
+        </div>
+        <div className="roasorg-alt-section">
+          <div className="roasorg-alt-brand">RoaSorg</div>
+          <div className="roasorg-alt-desc">Development &bull; Design &bull; Content &bull; Management</div>
+        </div>
+      </div>
     </>
   );
 }
