@@ -1,11 +1,10 @@
 /** @type {import('next').NextConfig} */
-const isGithubPages = process.env.NODE_ENV === 'production';
-const repoName = 'roasorg-website';
+const repo = 'roasorg-website';
 
 module.exports = {
   output: 'export',
-  assetPrefix: isGithubPages ? `/${repoName}/` : '',
-  basePath: isGithubPages ? `/${repoName}` : '',
+  basePath: `/${repo}`,
+  assetPrefix: `/${repo}/`,
   images: {
     unoptimized: true,
   },

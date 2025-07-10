@@ -12,10 +12,10 @@ export default function Home() {
       <Head>
         <title>RoaSorg</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="icon" href="/Icon.png" type="image/png" />
+        <link rel="icon" href="/roasorg-website/Icon.png" type="image/png" />
       </Head>
       <div className="roasorg-container">
-        <img src="/Icon.png" alt="RoaSorg Logo" className="roasorg-logo" />
+        <img src="/roasorg-website/Icon.png" alt="RoaSorg Logo" className="roasorg-logo" />
         <div className="roasorg-brand">RoaSorg</div>
         <div className="roasorg-subtitle">
           Development &bull; Design &bull; Content &bull; Management<br />
