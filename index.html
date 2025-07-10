@@ -1,13 +1,122 @@
-<!DOCTYPE html><html><head><meta charSet="utf-8"/><title>RoaS Org - App Making, Design &amp; Content Creation</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="description" content="App Making, Design &amp; Content Creation by RoaS Org"/><link rel="icon" href="/roasorg-website/favicon.ico" type="image/x-icon"/><link rel="icon" type="image/png" sizes="32x32" href="/roasorg-website/favicon-32x32.png"/><link rel="icon" type="image/png" sizes="16x16" href="/roasorg-website/favicon-16x16.png"/><link rel="apple-touch-icon" sizes="180x180" href="/roasorg-website/apple-touch-icon.png"/><link rel="manifest" href="/roasorg-website/site.webmanifest"/><style>
-          body { font-family: &#x27;Segoe UI&#x27;, Arial, sans-serif; margin: 0; background: #f8f9fa; color: #222; }
-          header { background: #1976d2; color: #fff; padding: 2rem 1rem; text-align: center; }
-          nav { background: #1565c0; padding: 0.5rem 0; text-align: center; }
-          nav a { color: #fff; margin: 0 1rem; text-decoration: none; font-weight: 500; }
-          nav a:hover { text-decoration: underline; }
-          main { max-width: 800px; margin: 2rem auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; padding: 2rem; }
-          section { margin-bottom: 2rem; }
-          h1, h2 { color: #1976d2; }
-          footer { text-align: center; color: #888; padding: 2rem 1rem 1rem; }
-          .cta { background: #1976d2; color: #fff; padding: 1rem 2rem; border: none; border-radius: 4px; font-size: 1.1rem; cursor: pointer; }
-          .cta:hover { background: #1565c0; }
-        </style><meta name="next-head-count" content="10"/><link rel="preload" href="/roasorg-website/_next/static/css/16688014dd092739.css" as="style"/><link rel="stylesheet" href="/roasorg-website/_next/static/css/16688014dd092739.css" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/roasorg-website/_next/static/chunks/polyfills-42372ed130431b0a.js"></script><script src="/roasorg-website/_next/static/chunks/webpack-54be6745797448e7.js" defer=""></script><script src="/roasorg-website/_next/static/chunks/framework-64ad27b21261a9ce.js" defer=""></script><script src="/roasorg-website/_next/static/chunks/main-1345486c8196c050.js" defer=""></script><script src="/roasorg-website/_next/static/chunks/pages/_app-87cee5540118d1b4.js" defer=""></script><script src="/roasorg-website/_next/static/chunks/pages/index-bdf85d323c29e94f.js" defer=""></script><script src="/roasorg-website/_next/static/Mx79qeLaqvBCT3zhzNYeX/_buildManifest.js" defer=""></script><script src="/roasorg-website/_next/static/Mx79qeLaqvBCT3zhzNYeX/_ssgManifest.js" defer=""></script></head><body><div id="__next"><header><h1>RoaS Org</h1><p>App Making, Design &amp; Content Creation</p></header><nav><a href="#home">Home</a><a href="#about">About</a><a href="#services">Services</a><a href="#portfolio">Portfolio</a><a href="#contact">Contact</a></nav><main><section id="home"><h2>Welcome to RoaS Org</h2><p>We are passionate creators, building innovative apps, beautiful designs, and engaging content for the digital world.</p><button class="cta">Let&#x27;s Work Together</button></section><section id="about"><h2>About Us</h2><p>RoaS Org is a team of developers, designers, and storytellers. Our mission is to empower organizations and individuals with digital solutions that inspire and connect.</p></section><section id="services"><h2>Our Services</h2><ul><li><strong>App Development:</strong> Mobile and web apps tailored to your needs.</li><li><strong>Design:</strong> UI/UX, branding, and visual storytelling.</li><li><strong>Content Creation:</strong> Copywriting, blogs, and multimedia content.</li></ul></section><section id="portfolio"><h2>Portfolio</h2><p><em>Coming soon: See our latest apps and creative projects!</em></p></section><section id="contact"><h2>Contact Us</h2><p>Ready to start your project or have questions? <br/><strong>Email:</strong> <a href="mailto:info@roasorg.com">info@roasorg.com</a></p></section></main><footer>© 2024 RoaS Org. All rights reserved.</footer></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{}},"page":"/","query":{},"buildId":"Mx79qeLaqvBCT3zhzNYeX","assetPrefix":"/roasorg-website","nextExport":true,"autoExport":true,"isFallback":false,"scriptLoader":[]}</script></body></html>
+<!DOCTYPE html><html><head><meta charSet="utf-8"/><title>RoaSorg</title><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="icon" href="/roasorg-website/favicon.ico" type="image/x-icon"/><style>
+          body {
+            font-family: -apple-system, BlinkMacSystemFont, &#x27;Segoe UI&#x27;, Roboto, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: radial-gradient(circle at 60% 20%, #3a206e 0%, #1a093b 100%);
+            color: #fff;
+          }
+          .navbar {
+            width: 100%;
+            background: rgba(30, 20, 60, 0.95);
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 1rem 0 0.5rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+          }
+          .navbar a {
+            color: #a48cff;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.2s;
+          }
+          .navbar a:hover {
+            color: #fff;
+          }
+          .site-title {
+            text-align: center;
+            font-size: 2.7rem;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: #a48cff;
+            margin-top: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 4px 16px rgba(0,0,0,0.18);
+          }
+          .subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #e0e0e0;
+            margin-bottom: 2.5rem;
+          }
+          .card-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 0 auto 2.5rem auto;
+            gap: 18px;
+            max-width: 900px;
+            flex-wrap: wrap;
+          }
+          .card {
+            flex: 1 1 180px;
+            background: #fff;
+            color: #2c3e50;
+            border-radius: 22px;
+            padding: 28px 12px 18px 12px;
+            margin: 0 4px;
+            box-shadow: 0 2px 16px rgba(80,40,180,0.13);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 160px;
+            max-width: 220px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+          }
+          .card:hover {
+            transform: translateY(-6px) scale(1.04);
+            box-shadow: 0 8px 32px rgba(80,40,180,0.18);
+          }
+          .card-icon {
+            font-size: 2.7rem;
+            margin-bottom: 10px;
+          }
+          .dev { background: linear-gradient(135deg, #2D8CF0 60%, #8A2BE2 100%); color: #fff; }
+          .design { background: linear-gradient(135deg, #8A2BE2 60%, #FF5EAA 100%); color: #fff; }
+          .content { background: linear-gradient(135deg, #43a047 60%, #FFB347 100%); color: #fff; }
+          .mgmt { background: linear-gradient(135deg, #FF5EAA 60%, #FFB347 100%); color: #fff; }
+          .card-label {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-top: 2px;
+            text-align: center;
+          }
+          .card-desc {
+            font-size: 0.98rem;
+            font-weight: 400;
+            margin-top: 4px;
+            color: #e0e0e0;
+          }
+          .alt-section {
+            margin: 2.5rem auto 0 auto;
+            background: rgba(255,255,255,0.06);
+            border-radius: 18px;
+            padding: 18px 10px 10px 10px;
+            max-width: 420px;
+            text-align: center;
+          }
+          .alt-brand {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #a48cff;
+            margin-bottom: 4px;
+          }
+          .alt-desc {
+            font-size: 0.98rem;
+            color: #e0e0e0;
+          }
+          @media (max-width: 900px) {
+            .card-row { flex-wrap: wrap; gap: 12px; }
+            .card { min-width: 140px; max-width: 100%; }
+          }
+          @media (max-width: 600px) {
+            .site-title { font-size: 2rem; }
+            .card-row { flex-direction: column; gap: 16px; }
+            .card { margin: 0; }
+          }
+        </style><meta name="next-head-count" content="5"/><link rel="preload" href="/roasorg-website/_next/static/css/16688014dd092739.css" as="style"/><link rel="stylesheet" href="/roasorg-website/_next/static/css/16688014dd092739.css" data-n-g=""/><noscript data-n-css=""></noscript><script defer="" nomodule="" src="/roasorg-website/_next/static/chunks/polyfills-42372ed130431b0a.js"></script><script src="/roasorg-website/_next/static/chunks/webpack-54be6745797448e7.js" defer=""></script><script src="/roasorg-website/_next/static/chunks/framework-64ad27b21261a9ce.js" defer=""></script><script src="/roasorg-website/_next/static/chunks/main-1345486c8196c050.js" defer=""></script><script src="/roasorg-website/_next/static/chunks/pages/_app-87cee5540118d1b4.js" defer=""></script><script src="/roasorg-website/_next/static/chunks/pages/index-68295597433fcccf.js" defer=""></script><script src="/roasorg-website/_next/static/eN5EsmsS0JkQPRTXqyz4B/_buildManifest.js" defer=""></script><script src="/roasorg-website/_next/static/eN5EsmsS0JkQPRTXqyz4B/_ssgManifest.js" defer=""></script></head><body><div id="__next"><nav class="navbar"><a href="#developer">Developer</a><a href="#design">Design</a><a href="#content">Content Creation</a><a href="#mgmt">Management</a></nav><div class="site-title">RoaSorg</div><div class="subtitle">Development • Design • Content • Management<br/>Product Development Management Support by <b>EduTutor (E2T)</b></div><div class="card-row"><div id="developer" class="card dev"><div class="card-icon">📱</div><div class="card-label">Developer</div><div class="card-desc">Mobile App</div></div><div id="design" class="card design"><div class="card-icon">⭐</div><div class="card-label">Design</div><div class="card-desc">3D Printing</div></div><div id="content" class="card content"><div class="card-icon">📄</div><div class="card-label">Content Creation</div></div><div id="mgmt" class="card mgmt"><div class="card-icon">🛠️</div><div class="card-label">Management</div><div class="card-desc">E2T</div></div></div><div class="alt-section"><div class="alt-brand">RoaSorg</div><div class="alt-desc">Development • Design • Content • Management</div></div></div><script id="__NEXT_DATA__" type="application/json">{"props":{"pageProps":{}},"page":"/","query":{},"buildId":"eN5EsmsS0JkQPRTXqyz4B","assetPrefix":"/roasorg-website","nextExport":true,"autoExport":true,"isFallback":false,"scriptLoader":[]}</script></body></html>
