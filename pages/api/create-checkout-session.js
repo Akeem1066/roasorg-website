@@ -21,10 +21,28 @@ export default async function handler(req, res) {
   }
 
   try {
-    const { amount, currency = 'usd', description = 'Donation to RoaS Org' } = req.body;
+    const { amount, currency = 'usd', description, productType = 'donation' } = req.body;
 
     if (!amount) {
       return res.status(400).json({ message: 'Amount is required' });
+    }
+
+    // Determine product name based on product type
+    let productName;
+    switch (productType) {
+      case 'premium_monthly':
+        productName = 'Aditask Premium Monthly Subscription';
+        break;
+      case 'premium_yearly':
+        productName = 'Aditask Premium Yearly Subscription';
+        break;
+      case 'premium_lifetime':
+        productName = 'Aditask Premium Lifetime Subscription';
+        break;
+      case 'donation':
+      default:
+        productName = 'Support Aditask - Donation';
+        break;
     }
 
     // Create checkout session
@@ -35,7 +53,8 @@ export default async function handler(req, res) {
           price_data: {
             currency: currency,
             product_data: {
-              name: description,
+              name: productName,
+              description: description || productName,
             },
             unit_amount: amount, // amount in cents
           },
@@ -46,7 +65,8 @@ export default async function handler(req, res) {
       success_url: `${req.headers.origin || 'https://roasorg.com'}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${req.headers.origin || 'https://roasorg.com'}/cancel`,
       metadata: {
-        description: description,
+        productType: productType,
+        description: description || productName,
       },
     });
 
