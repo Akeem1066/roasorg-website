@@ -42,6 +42,16 @@ export default async function handler(req, res) {
     res.status(200).json({ sessionId: session.id, url: session.url });
   } catch (error) {
     console.error('Error creating checkout session:', error);
-    res.status(500).json({ message: 'Error creating checkout session' });
+    
+    // More specific error handling
+    if (error.type === 'StripeCardError') {
+      res.status(400).json({ message: 'Card error: ' + error.message });
+    } else if (error.type === 'StripeInvalidRequestError') {
+      res.status(400).json({ message: 'Invalid request: ' + error.message });
+    } else if (error.type === 'StripeAPIError') {
+      res.status(500).json({ message: 'Stripe API error: ' + error.message });
+    } else {
+      res.status(500).json({ message: 'Error creating checkout session: ' + error.message });
+    }
   }
 } 

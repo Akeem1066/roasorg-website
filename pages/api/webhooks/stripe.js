@@ -30,6 +30,11 @@ export default async function handler(req, res) {
     return res.status(400).json({ message: 'Webhook signature verification failed' });
   }
 
+  if (!event) {
+    console.error('No event received');
+    return res.status(400).json({ message: 'No event received' });
+  }
+
   console.log('Received webhook event:', event.type);
 
   try {

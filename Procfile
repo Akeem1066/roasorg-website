@@ -1,1 +1,1 @@
-web: npm run build:heroku && npm start 
+web: cp next.config.heroku.js next.config.js && npm run build && npm start 
