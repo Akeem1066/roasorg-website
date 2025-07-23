@@ -211,6 +211,51 @@ export default function Home() {
         <p>Ready to start your project or have questions? <br />
           <strong>Email:</strong> <a href="mailto:info@roasorg.com">info@roasorg.com</a>
         </p>
+        
+        <div style={{ marginTop: '2rem', textAlign: 'center' }}>
+          <h3>Support Our Mission</h3>
+          <p>Help us continue building amazing digital solutions.</p>
+          <button 
+            onClick={async () => {
+              try {
+                const response = await fetch('/api/create-checkout-session', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify({
+                    amount: 1000, // $10.00
+                    description: 'Donation to RoaS Org'
+                  })
+                });
+                
+                const data = await response.json();
+                
+                if (data.url) {
+                  window.location.href = data.url;
+                } else {
+                  alert('Error creating payment session');
+                }
+              } catch (error) {
+                console.error('Payment error:', error);
+                alert('Payment error occurred');
+              }
+            }}
+            style={{
+              background: 'linear-gradient(135deg, #2D8CF0 60%, #8A2BE2 100%)',
+              color: 'white',
+              border: 'none',
+              padding: '12px 24px',
+              borderRadius: '8px',
+              fontSize: '16px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              transition: 'transform 0.2s'
+            }}
+          >
+            Donate $10
+          </button>
+        </div>
       </section>
       <div className="alt-section">
         <div className="alt-brand">RoaSorg</div>
