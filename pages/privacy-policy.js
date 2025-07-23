@@ -113,8 +113,8 @@ export default function PrivacyPolicy() {
       </Head>
       
       <nav className="navbar">
-        <Link href="/">Home</Link>
-        <Link href="/privacy-policy">Privacy Policy</Link>
+        <a href="/">Home</a>
+        <a href="/privacy-policy">Privacy Policy</a>
       </nav>
 
       <div className="container">
@@ -218,7 +218,7 @@ export default function PrivacyPolicy() {
             <ul>
               <li><strong>Email:</strong> privacy@roasorg.com</li>
               <li><strong>Organization:</strong> RoaS Org</li>
-              <li><strong>Website:</strong> https://roasorg.com</li>
+              <li><strong>Website:</strong> https://roasorg.com/privacy-policy</li>
             </ul>
           </div>
 

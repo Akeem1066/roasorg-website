@@ -192,19 +192,19 @@ export default function Home() {
       </section>
       <section id="about-details" className="details-section">
         <h2>About Us</h2>
-        <p>RoaS Org is a team of developers, designers, and storytellers. Our mission is to empower organizations and individuals with digital solutions that inspire and connect.</p>
+        <p>RoaS Org is a team of developers, designers, and product consultant management. Our mission is to empower organizations and individuals with digital solutions that inspire and connect.</p>
       </section>
       <section id="services-details" className="details-section">
         <h2>Our Services</h2>
         <ul>
           <li><strong>App Development:</strong> Mobile and web apps tailored to your needs.</li>
-          <li><strong>Design:</strong> UI/UX, branding, and visual storytelling.</li>
+          <li><strong>Design:</strong> UI/UX, branding, and visual product development.</li>
           <li><strong>Content Creation:</strong> Copywriting, blogs, and multimedia content.</li>
         </ul>
       </section>
       <section id="portfolio-details" className="details-section">
         <h2>Portfolio</h2>
-        <p><em>Coming soon: See our latest apps and creative projects!</em></p>
+        <p><em>Our latest apps and creative projects are Aditask, ThinkStack....</em></p>
       </section>
       <section id="contact-details" className="details-section">
         <h2>Contact Us</h2>
