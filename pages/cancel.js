@@ -1,9 +1,6 @@
-import { useRouter } from 'next/router';
 import Head from 'next/head';
 
 export default function Cancel() {
-  const router = useRouter();
-
   return (
     <>
       <Head>
@@ -30,19 +27,19 @@ export default function Cancel() {
           </p>
           
           <div className="space-y-3">
-            <button
-              onClick={() => router.push('/')}
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+            <a
+              href="/"
+              className="block w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors text-center no-underline"
             >
               Return to Homepage
-            </button>
+            </a>
             
-            <button
-              onClick={() => router.push('/privacy-policy')}
-              className="w-full bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
+            <a
+              href="/privacy-policy"
+              className="block w-full bg-gray-200 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors text-center no-underline"
             >
               Privacy Policy
-            </button>
+            </a>
           </div>
         </div>
       </div>
