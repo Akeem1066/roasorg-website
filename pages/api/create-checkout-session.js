@@ -45,6 +45,13 @@ export default async function handler(req, res) {
         break;
     }
 
+    console.log('Creating checkout session with:', {
+      productType,
+      productName,
+      amount,
+      currency
+    });
+
     // Create checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],

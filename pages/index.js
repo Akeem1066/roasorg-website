@@ -225,7 +225,7 @@ export default function Home() {
                   },
                   body: JSON.stringify({
                     amount: 1000, // $10.00
-                    description: 'Donation to RoaS Org'
+                    productType: 'donation'
                   })
                 });
                 
