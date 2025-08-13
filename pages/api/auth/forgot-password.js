@@ -35,7 +35,9 @@ export default async function handler(req, res) {
 
     res.status(200).json({
       message: 'Reset link sent successfully',
-      success: true
+      success: true,
+      resetLink: `${process.env.NEXT_PUBLIC_APP_URL || 'https://roasorg.com'}/reset-password?token=${resetToken}`,
+      token: resetToken
     });
 
   } catch (error) {

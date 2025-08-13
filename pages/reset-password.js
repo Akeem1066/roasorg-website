@@ -17,9 +17,22 @@ export default function ResetPassword() {
     const { token } = router.query;
     if (token) {
       setResetToken(token);
+      setMessageType('info');
+      setMessage('Reset token found. You can now set your new password.');
     } else {
-      setMessageType('error');
-      setMessage('No reset token found. Please use the forgot password link.');
+      // Check if we're on the client side and can access URL
+      if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlToken = urlParams.get('token');
+        if (urlToken) {
+          setResetToken(urlToken);
+          setMessageType('info');
+          setMessage('Reset token found. You can now set your new password.');
+        } else {
+          setMessageType('error');
+          setMessage('No reset token found. Please use the forgot password link.');
+        }
+      }
     }
   }, [router.query]);
 
@@ -144,7 +157,7 @@ export default function ResetPassword() {
             <button 
               type="submit" 
               className="btn"
-              disabled={isLoading}
+              disabled={isLoading || !resetToken || password.length < 8 || confirmPassword.length < 8 || password !== confirmPassword}
             >
               {isLoading ? 'Resetting...' : 'Reset Password'}
             </button>
@@ -278,6 +291,12 @@ export default function ResetPassword() {
           background: #f8d7da;
           color: #721c24;
           border: 1px solid #f5c6cb;
+        }
+        
+        .message.info {
+          background: #d1ecf1;
+          color: #0c5460;
+          border: 1px solid #bee5eb;
         }
         
         .links {
