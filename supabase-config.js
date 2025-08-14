@@ -13,6 +13,6 @@ export const SUPABASE_CONFIG = {
 
 // Example:
 // export const SUPABASE_CONFIG = {
-//   url: 'https://abcdefghijklmnop.supabase.co',
-//   anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+//   url: 'https://omqilkaelojbywtatese.supabase.co',
+//   anonKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9tcWlsa2FlbG9qYnl3dGF0ZXNlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTA4NTg4MDksImV4cCI6MjA2NjQzNDgwOX0.Qp9soTgeIqnDVCC6eOU-Wh6N4DE8HnfLNqcz07xqzO8'
 // };
