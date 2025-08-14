@@ -1,200 +1,86 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-
 import { SUPABASE_CONFIG } from '../supabase-config';
 
-// Supabase configuration
-const SUPABASE_URL = SUPABASE_CONFIG.url;
-const SUPABASE_ANON_KEY = SUPABASE_CONFIG.anonKey;
-
-export default function ResetPassword() {
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+export default function ForgotPasswordSupabase() {
+  const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('');
-  const [resetToken, setResetToken] = useState('');
-  const router = useRouter();
-
-  useEffect(() => {
-    // Get reset token from URL parameters - try multiple methods
-    const detectToken = () => {
-      let token = null;
-      
-      // Method 1: Try Next.js router first
-      if (router.query.token) {
-        token = router.query.token;
-      }
-      
-      // Method 2: If no token from router, check URL directly
-      if (!token && typeof window !== 'undefined') {
-        const urlParams = new URLSearchParams(window.location.search);
-        token = urlParams.get('token');
-      }
-      
-      // Method 3: Check hash fragment if present
-      if (!token && typeof window !== 'undefined' && window.location.hash) {
-        const hashParams = new URLSearchParams(window.location.hash.substring(1));
-        token = hashParams.get('token');
-      }
-      
-      if (token) {
-        setResetToken(token);
-        setMessageType('info');
-        setMessage(`Reset token found: ${token.substring(0, 8)}... You can now set your new password.`);
-        console.log('Reset token detected:', token);
-      } else {
-        setMessageType('error');
-        setMessage('No reset token found. Please use the forgot password link.');
-        console.log('No reset token found in URL');
-      }
-    };
-
-    // Run immediately
-    detectToken();
-    
-    // Also run when router query changes
-    if (router.isReady) {
-      detectToken();
-    }
-    
-    // Fallback: check again when window loads
-    if (typeof window !== 'undefined') {
-      window.addEventListener('load', detectToken);
-      return () => window.removeEventListener('load', detectToken);
-    }
-  }, [router.query, router.isReady]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (password !== confirmPassword) {
-      setMessageType('error');
-      setMessage('Passwords do not match. Please try again.');
-      return;
-    }
-
-    if (password.length < 8) {
-      setMessageType('error');
-      setMessage('Password must be at least 8 characters long.');
-      return;
-    }
-
     setIsLoading(true);
     setMessage('');
 
     try {
       // Call Supabase directly for password reset
-      const response = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
-        method: 'PUT',
+      const response = await fetch(`${SUPABASE_CONFIG.url}/auth/v1/recover`, {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${resetToken}`,
-          'apikey': SUPABASE_ANON_KEY,
+          'apikey': SUPABASE_CONFIG.anonKey,
         },
         body: JSON.stringify({
-          password: password,
+          email: email,
         }),
       });
 
       if (response.ok) {
         setMessageType('success');
-        setMessage('Password reset successful! You can now log in with your new password.');
-        
-        // Clear form
-        setPassword('');
-        setConfirmPassword('');
-        
-        // Redirect to home after a delay
-        setTimeout(() => {
-          router.push('/');
-        }, 3000);
+        setMessage('Password reset link sent to your email! Check your inbox and spam folder.');
+        setEmail('');
       } else {
         const errorData = await response.json();
         setMessageType('error');
-        setMessage(errorData.message || 'Failed to reset password. Please try again.');
+        setMessage(errorData.message || 'Failed to send reset link. Please try again.');
         console.error('Supabase error:', errorData);
       }
     } catch (error) {
       setMessageType('error');
       setMessage('An error occurred. Please try again.');
-      console.error('Reset password error:', error);
+      console.error('Forgot password error:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  if (!resetToken) {
-    return (
-      <div className="reset-password-container">
-        <div className="container">
-          <div className="logo">🔐</div>
-          <h1>Invalid Reset Link</h1>
-          <p className="subtitle">
-            This reset link is invalid or has expired. Please check your email for the correct reset link from Supabase.
-          </p>
-          <div className="links">
-            <Link href="/" className="back-link">
-              ← Back to Home
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <>
       <Head>
-        <title>Reset Password - Aditask</title>
+        <title>Forgot Password - Aditask</title>
         <meta name="description" content="Reset your Aditask password" />
       </Head>
       
-      <div className="reset-password-container">
+      <div className="forgot-password-container">
         <div className="container">
           <div className="logo">🔐</div>
-          <h1>Reset Your Password</h1>
+          <h1>Forgot Your Password?</h1>
           <p className="subtitle">
-            Enter your new password below. Make sure it's secure and easy to remember.
+            No worries! Enter your email address and we'll send you a link to reset your password.
           </p>
           
           <form onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="password">New Password</label>
+              <label htmlFor="email">Email Address</label>
               <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter new password"
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email"
                 required
                 disabled={isLoading}
-                minLength="8"
-              />
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="confirmPassword">Confirm New Password</label>
-              <input
-                type="password"
-                id="confirmPassword"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm new password"
-                required
-                disabled={isLoading}
-                minLength="8"
               />
             </div>
             
             <button 
               type="submit" 
               className="btn"
-              disabled={isLoading || !resetToken || password.length < 8 || confirmPassword.length < 8 || password !== confirmPassword}
+              disabled={isLoading}
             >
-              {isLoading ? 'Resetting...' : 'Reset Password'}
+              {isLoading ? 'Sending...' : 'Send Reset Link'}
             </button>
           </form>
           
@@ -213,7 +99,7 @@ export default function ResetPassword() {
       </div>
 
       <style jsx>{`
-        .reset-password-container {
+        .forgot-password-container {
           min-height: 100vh;
           background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
           display: flex;
@@ -296,8 +182,6 @@ export default function ResetPassword() {
           cursor: pointer;
           width: 100%;
           transition: transform 0.2s ease;
-          text-decoration: none;
-          display: inline-block;
         }
         
         .btn:hover:not(:disabled) {
@@ -326,12 +210,6 @@ export default function ResetPassword() {
           background: #f8d7da;
           color: #721c24;
           border: 1px solid #f5c6cb;
-        }
-        
-        .message.info {
-          background: #d1ecf1;
-          color: #0c5460;
-          border: 1px solid #bee5eb;
         }
         
         .links {
