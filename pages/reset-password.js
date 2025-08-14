@@ -126,25 +126,9 @@ export default function ResetPassword() {
     }
   };
 
-  if (!resetToken) {
-    return (
-      <div className="reset-password-container">
-        <div className="container">
-          <div className="logo">🔐</div>
-          <h1>Invalid Reset Link</h1>
-          <p className="subtitle">
-            This reset link is invalid or has expired. Please check your email for the correct reset link from Supabase.
-          </p>
-          <div className="links">
-            <Link href="/" className="back-link">
-              ← Back to Home
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
+  // Remove the early return that shows "Invalid Reset Link"
+  // Instead, always render the page and let JavaScript handle the state
+  
   return (
     <>
       <Head>
@@ -155,48 +139,61 @@ export default function ResetPassword() {
       <div className="reset-password-container">
         <div className="container">
           <div className="logo">🔐</div>
-          <h1>Reset Your Password</h1>
-          <p className="subtitle">
-            Enter your new password below. Make sure it's secure and easy to remember.
-          </p>
           
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="password">New Password</label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter new password"
-                required
-                disabled={isLoading}
-                minLength="8"
-              />
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="confirmPassword">Confirm New Password</label>
-              <input
-                type="password"
-                id="confirmPassword"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm new password"
-                required
-                disabled={isLoading}
-                minLength="8"
-              />
-            </div>
-            
-            <button 
-              type="submit" 
-              className="btn"
-              disabled={isLoading || !resetToken || password.length < 8 || confirmPassword.length < 8 || password !== confirmPassword}
-            >
-              {isLoading ? 'Resetting...' : 'Reset Password'}
-            </button>
-          </form>
+          {/* Show form only when token is detected */}
+          {resetToken ? (
+            <>
+              <h1>Reset Your Password</h1>
+              <p className="subtitle">
+                Enter your new password below. Make sure it's secure and easy to remember.
+              </p>
+              
+              <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                  <label htmlFor="password">New Password</label>
+                  <input
+                    type="password"
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter new password"
+                    required
+                    disabled={isLoading}
+                    minLength="8"
+                  />
+                </div>
+                
+                <div className="form-group">
+                  <label htmlFor="confirmPassword">Confirm New Password</label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirm new password"
+                    required
+                    disabled={isLoading}
+                    minLength="8"
+                  />
+                </div>
+                
+                <button 
+                  type="submit" 
+                  className="btn"
+                  disabled={isLoading || password.length < 8 || confirmPassword.length < 8 || password !== confirmPassword}
+                >
+                  {isLoading ? 'Resetting...' : 'Reset Password'}
+                </button>
+              </form>
+            </>
+          ) : (
+            <>
+              <h1>Checking Reset Link...</h1>
+              <p className="subtitle">
+                Please wait while we verify your reset link...
+              </p>
+            </>
+          )}
           
           {message && (
             <div className={`message ${messageType}`}>
