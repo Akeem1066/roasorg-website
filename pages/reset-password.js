@@ -14,36 +14,52 @@ export default function ResetPassword() {
 
   useEffect(() => {
     // Get reset token from URL parameters - try multiple methods
-    let token = null;
+    const detectToken = () => {
+      let token = null;
+      
+      // Method 1: Try Next.js router first
+      if (router.query.token) {
+        token = router.query.token;
+      }
+      
+      // Method 2: If no token from router, check URL directly
+      if (!token && typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search);
+        token = urlParams.get('token');
+      }
+      
+      // Method 3: Check hash fragment if present
+      if (!token && typeof window !== 'undefined' && window.location.hash) {
+        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+        token = hashParams.get('token');
+      }
+      
+      if (token) {
+        setResetToken(token);
+        setMessageType('info');
+        setMessage(`Reset token found: ${token.substring(0, 8)}... You can now set your new password.`);
+        console.log('Reset token detected:', token);
+      } else {
+        setMessageType('error');
+        setMessage('No reset token found. Please use the forgot password link.');
+        console.log('No reset token found in URL');
+      }
+    };
+
+    // Run immediately
+    detectToken();
     
-    // Method 1: Try Next.js router first
-    if (router.query.token) {
-      token = router.query.token;
+    // Also run when router query changes
+    if (router.isReady) {
+      detectToken();
     }
     
-    // Method 2: If no token from router, check URL directly
-    if (!token && typeof window !== 'undefined') {
-      const urlParams = new URLSearchParams(window.location.search);
-      token = urlParams.get('token');
+    // Fallback: check again when window loads
+    if (typeof window !== 'undefined') {
+      window.addEventListener('load', detectToken);
+      return () => window.removeEventListener('load', detectToken);
     }
-    
-    // Method 3: Check hash fragment if present
-    if (!token && typeof window !== 'undefined' && window.location.hash) {
-      const hashParams = new URLSearchParams(window.location.hash.substring(1));
-      token = hashParams.get('token');
-    }
-    
-    if (token) {
-      setResetToken(token);
-      setMessageType('info');
-      setMessage(`Reset token found: ${token.substring(0, 8)}... You can now set your new password.`);
-      console.log('Reset token detected:', token);
-    } else {
-      setMessageType('error');
-      setMessage('No reset token found. Please use the forgot password link.');
-      console.log('No reset token found in URL');
-    }
-  }, [router.query]);
+  }, [router.query, router.isReady]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
