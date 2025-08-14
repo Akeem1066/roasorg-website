@@ -109,11 +109,13 @@ export default function ResetPassword() {
           <div className="logo">🔐</div>
           <h1>Invalid Reset Link</h1>
           <p className="subtitle">
-            This reset link is invalid or has expired. Please request a new password reset.
+            This reset link is invalid or has expired. Please check your email for the correct reset link from Supabase.
           </p>
-          <Link href="/forgot-password" className="btn">
-            Request New Reset Link
-          </Link>
+          <div className="links">
+            <Link href="/" className="back-link">
+              ← Back to Home
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -179,8 +181,8 @@ export default function ResetPassword() {
           )}
           
           <div className="links">
-            <Link href="/forgot-password" className="back-link">
-              ← Back to Forgot Password
+            <Link href="/" className="back-link">
+              ← Back to Home
             </Link>
           </div>
         </div>
