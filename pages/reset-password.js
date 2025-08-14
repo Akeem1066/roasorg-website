@@ -13,26 +13,35 @@ export default function ResetPassword() {
   const router = useRouter();
 
   useEffect(() => {
-    // Get reset token from URL parameters
-    const { token } = router.query;
+    // Get reset token from URL parameters - try multiple methods
+    let token = null;
+    
+    // Method 1: Try Next.js router first
+    if (router.query.token) {
+      token = router.query.token;
+    }
+    
+    // Method 2: If no token from router, check URL directly
+    if (!token && typeof window !== 'undefined') {
+      const urlParams = new URLSearchParams(window.location.search);
+      token = urlParams.get('token');
+    }
+    
+    // Method 3: Check hash fragment if present
+    if (!token && typeof window !== 'undefined' && window.location.hash) {
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      token = hashParams.get('token');
+    }
+    
     if (token) {
       setResetToken(token);
       setMessageType('info');
-      setMessage('Reset token found. You can now set your new password.');
+      setMessage(`Reset token found: ${token.substring(0, 8)}... You can now set your new password.`);
+      console.log('Reset token detected:', token);
     } else {
-      // Check if we're on the client side and can access URL
-      if (typeof window !== 'undefined') {
-        const urlParams = new URLSearchParams(window.location.search);
-        const urlToken = urlParams.get('token');
-        if (urlToken) {
-          setResetToken(urlToken);
-          setMessageType('info');
-          setMessage('Reset token found. You can now set your new password.');
-        } else {
-          setMessageType('error');
-          setMessage('No reset token found. Please use the forgot password link.');
-        }
-      }
+      setMessageType('error');
+      setMessage('No reset token found. Please use the forgot password link.');
+      console.log('No reset token found in URL');
     }
   }, [router.query]);
 
