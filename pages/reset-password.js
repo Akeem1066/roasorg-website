@@ -19,31 +19,90 @@ export default function ResetPassword() {
   const router = useRouter();
 
   useEffect(() => {
-    // Get reset token from URL parameters - try multiple methods
+    // AUTOMATIC REDIRECT TO WORKING VERSION
+    if (typeof window !== 'undefined') {
+      const currentUrl = window.location.href;
+      const newUrl = currentUrl.replace('/reset-password', '/reset-password-standalone.html');
+      
+      if (currentUrl !== newUrl) {
+        console.log('Redirecting from old page to working version:', newUrl);
+        window.location.href = newUrl;
+        return;
+      }
+    }
+
+    // Enhanced token detection logic from working standalone version
     const detectToken = () => {
       let token = null;
+      let tokenSource = 'none';
       
-      // Method 1: Try Next.js router first
-      if (router.query.token) {
-        token = router.query.token;
-      }
-      
-      // Method 2: If no token from router, check URL directly
-      if (!token && typeof window !== 'undefined') {
+      // Method 1: Check URL search parameters for common Supabase formats
+      if (typeof window !== 'undefined') {
         const urlParams = new URLSearchParams(window.location.search);
-        token = urlParams.get('token');
+        
+        // Check all possible parameter names Supabase might use
+        const possibleTokenParams = ['token', 'access_token', 'reset_token', 'auth_token', 'jwt'];
+        for (const param of possibleTokenParams) {
+          const value = urlParams.get(param);
+          if (value && value.length > 0) {
+            token = value;
+            tokenSource = `search param: ${param}`;
+            break;
+          }
+        }
+        
+        // Method 2: Check for Supabase recovery format
+        if (!token && window.location.search.includes('type=recovery')) {
+          token = urlParams.get('access_token');
+          if (token) {
+            tokenSource = 'recovery access_token';
+          }
+        }
+        
+        // Method 3: Check hash fragment (Supabase sometimes uses this)
+        if (!token && window.location.hash) {
+          const hashParams = new URLSearchParams(window.location.hash.substring(1));
+          for (const param of possibleTokenParams) {
+            const value = hashParams.get(param);
+            if (value && value.length > 0) {
+              token = value;
+              tokenSource = `hash param: ${param}`;
+              break;
+            }
+          }
+        }
+        
+        // Method 4: Look for any token in any parameter
+        if (!token) {
+          for (const [key, value] of urlParams) {
+            if (value && value.length > 0) {
+              // Accept any token value, not just JWT format
+              token = value;
+              tokenSource = `any param: ${key}`;
+              break;
+            }
+          }
+        }
+        
+        // Method 5: Check hash for any tokens
+        if (!token && window.location.hash) {
+          const hashParams = new URLSearchParams(window.location.hash.substring(1));
+          for (const [key, value] of hashParams) {
+            if (value && value.length > 0) {
+              token = value;
+              tokenSource = `hash param: ${key}`;
+              break;
+            }
+          }
+        }
       }
       
-      // Method 3: Check hash fragment if present
-      if (!token && typeof window !== 'undefined' && window.location.hash) {
-        const hashParams = new URLSearchParams(window.location.hash.substring(1));
-        token = hashParams.get('token');
-      }
+      console.log('Token detection:', token ? `Found (${tokenSource}): ${token.substring(0, 8)}...` : 'Not found');
       
-      if (token) {
+      if (token && token.length > 0) {
         setResetToken(token);
         setMessageType('info');
-        setMessage(`Reset token found: ${token.substring(0, 8)}... You can now set your new password.`);
+        setMessage(`Reset token found (${tokenSource}): ${token.substring(0, 8)}... You can now set your new password.`);
         console.log('Reset token detected:', token);
       } else {
         setMessageType('error');
