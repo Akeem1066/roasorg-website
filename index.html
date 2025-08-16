@@ -109,6 +109,7 @@
                     <a href="#services" class="text-white hover:text-accent transition-colors">Services</a>
                     <a href="#portfolio" class="text-white hover:text-accent transition-colors">Portfolio</a>
                     <a href="#contact" class="text-white hover:text-accent transition-colors">Contact</a>
+                    <a href="#reset-password" class="text-white hover:text-accent transition-colors">Reset Password</a>
                 </div>
                 
                 <!-- CTA Buttons -->
@@ -134,6 +135,7 @@
                     <a href="#services" class="block text-white hover:text-accent transition-colors py-2">Services</a>
                     <a href="#portfolio" class="block text-white hover:text-accent transition-colors py-2">Portfolio</a>
                     <a href="#contact" class="block text-white hover:text-accent transition-colors py-2">Contact</a>
+                    <a href="#reset-password" class="block text-white hover:text-accent transition-colors py-2">Reset Password</a>
                 </div>
             </div>
         </nav>
@@ -506,6 +508,71 @@
         </div>
     </section>
 
+    <!-- Reset Password Section -->
+    <section id="reset-password" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-6">
+                    Reset Your <span class="gradient-text">Password</span>
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Enter your new password below. Make sure it's secure and easy to remember.
+                </p>
+            </div>
+            
+            <div class="max-w-md mx-auto">
+                <div class="bg-gray-50 rounded-2xl p-8 shadow-lg">
+                    <div id="reset-message" class="mb-6 p-4 rounded-lg hidden"></div>
+                    
+                    <form id="resetForm" class="space-y-6">
+                        <div>
+                            <label for="password" class="block text-gray-700 font-medium mb-2">New Password</label>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                placeholder="Enter new password"
+                                required
+                                minlength="8"
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                            >
+                        </div>
+                        
+                        <div>
+                            <label for="confirmPassword" class="block text-gray-700 font-medium mb-2">Confirm New Password</label>
+                            <input 
+                                type="password" 
+                                id="confirmPassword" 
+                                name="confirmPassword" 
+                                placeholder="Confirm new password"
+                                required
+                                minlength="8"
+                                class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                            >
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 px-6 rounded-lg font-semibold hover:from-secondary hover:to-primary transition-all transform hover:scale-105">
+                            <span id="submitText">Reset Password</span>
+                            <span id="loadingSpinner" class="hidden">
+                                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                Resetting...
+                            </span>
+                        </button>
+                    </form>
+                    
+                    <div class="mt-6 text-center">
+                        <a href="/" class="text-primary hover:text-secondary transition-colors">
+                            ← Back to Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer class="bg-dark text-white py-16">
         <div class="container mx-auto px-4">
@@ -590,6 +657,115 @@
             e.preventDefault();
             alert('Thank you for your message! We will get back to you soon.');
         });
+        
+        // Password Reset Functionality
+        function getResetToken() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const hashParams = new URLSearchParams(window.location.hash.substring(1));
+            
+            // Check various possible token parameters
+            let token = urlParams.get('token') || 
+                       urlParams.get('access_token') || 
+                       urlParams.get('reset_token') || 
+                       urlParams.get('auth_token') || 
+                       urlParams.get('jwt') ||
+                       hashParams.get('token') ||
+                       hashParams.get('access_token') ||
+                       hashParams.get('reset_token') ||
+                       hashParams.get('auth_token') ||
+                       hashParams.get('jwt');
+            
+            // Also check for type=recovery in Supabase
+            if (urlParams.get('type') === 'recovery') {
+                token = urlParams.get('access_token') || token;
+            }
+            
+            return token;
+        }
+        
+        function showResetMessage(message, type = 'info') {
+            const messageDiv = document.getElementById('reset-message');
+            messageDiv.textContent = message;
+            messageDiv.className = `p-4 rounded-lg ${type === 'error' ? 'bg-red-100 text-red-700 border border-red-200' : type === 'success' ? 'bg-green-100 text-green-700 border border-green-200' : 'bg-blue-100 text-blue-700 border border-blue-200'}`;
+            messageDiv.classList.remove('hidden');
+        }
+        
+        function hideResetMessage() {
+            document.getElementById('reset-message').classList.add('hidden');
+        }
+        
+        // Check for reset token on page load
+        window.addEventListener('load', function() {
+            const token = getResetToken();
+            
+            if (token && token.length > 0) {
+                // Show reset password section
+                const resetSection = document.getElementById('reset-password');
+                if (resetSection) {
+                    resetSection.scrollIntoView({ behavior: 'smooth' });
+                    showResetMessage(`Reset token detected. You can now set your new password.`, 'info');
+                    console.log('Reset token found:', token.substring(0, 20) + '...');
+                }
+            }
+        });
+        
+        // Reset password form submission
+        const resetForm = document.getElementById('resetForm');
+        if (resetForm) {
+            resetForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const password = document.getElementById('password').value;
+                const confirmPassword = document.getElementById('confirmPassword').value;
+                const token = getResetToken();
+                
+                // Validation
+                if (!token) {
+                    showResetMessage('No reset token found. Please use the forgot password link.', 'error');
+                    return;
+                }
+                
+                if (password.length < 8) {
+                    showResetMessage('Password must be at least 8 characters long.', 'error');
+                    return;
+                }
+                
+                if (password !== confirmPassword) {
+                    showResetMessage('Passwords do not match.', 'error');
+                    return;
+                }
+                
+                // Show loading
+                document.getElementById('submitText').classList.add('hidden');
+                document.getElementById('loadingSpinner').classList.remove('hidden');
+                document.querySelector('#resetForm button').disabled = true;
+                
+                try {
+                    // Simulate API call (replace with actual Supabase call)
+                    await new Promise(resolve => setTimeout(resolve, 2000));
+                    
+                    showResetMessage('Password successfully reset! You can now log in with your new password.', 'success');
+                    resetForm.reset();
+                    
+                    // Redirect to homepage after 3 seconds
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 3000);
+                    
+                } catch (error) {
+                    showResetMessage('Failed to reset password. Please try again.', 'error');
+                } finally {
+                    document.getElementById('submitText').classList.remove('hidden');
+                    document.getElementById('loadingSpinner').classList.add('hidden');
+                    document.querySelector('#resetForm button').disabled = false;
+                }
+            });
+            
+            // Hide message when user starts typing
+            document.querySelectorAll('#resetForm input').forEach(input => {
+                input.addEventListener('input', hideResetMessage);
+            });
+        }
     </script>
 </body>
 </html> 
